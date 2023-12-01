@@ -9,14 +9,12 @@ use App\Http\Controllers\Admin\UserGroupController;
 // User Routes
 Route::get('/', 'App\Http\Controllers\user\UserController@index')->name('user.index');
 
-Route::get('/dashboard', function () {
-    return view('user.dashboard');
-})->middleware(['auth', 'verified'])->name('user.dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard', 'App\Http\Controllers\user\UserController@userDashboard')->name('user.dashboard');
 });
 
 require __DIR__.'/auth.php';
