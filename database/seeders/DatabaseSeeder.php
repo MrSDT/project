@@ -21,5 +21,9 @@ class DatabaseSeeder extends Seeder
         // ]);
         UserGroup::create(['groupName' => 'registered_user']);
         UserGroup::create(['groupName' => 'verified_user']);
+        UserGroup::create(['groupName' => 'job_owner']);
+        UserGroup::create(['groupName' => 'moderator']);
+        UserGroup::create(['groupName' => 'administrator']);
+        UserGroup::create(['groupName' => 'manager']);
     }
 }
