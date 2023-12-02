@@ -53,4 +53,8 @@ class User extends Authenticatable
         return $this->belongsTo(UserGroup::class);
     }
 
+    public function kyc()
+    {
+        return $this->hasOne(KycData::class, 'email', 'email');
+    }
 }
