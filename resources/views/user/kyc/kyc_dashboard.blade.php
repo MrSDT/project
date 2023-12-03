@@ -35,7 +35,7 @@
             </div>
 
             <div class="text-center">
-                <a href="{{ route('user.submit_kyc') }}" class="btn btn-primary btn-lg mr-3 mb-2">Submit KYC</a>
+                <a href="{{ route('users.submit_kyc') }}" class="btn btn-primary btn-lg mr-3 mb-2">Submit KYC</a>
                 @endif
             </div>
         </div>

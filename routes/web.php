@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 
 
 // User Routes
-Route::get('/', 'App\Http\Controllers\user\UserController@index')->name('user.index');
+Route::get('/', 'App\Http\Controllers\user\UserController@index')->name('users.index');
 
 
 Route::middleware('auth')->group(function () {
@@ -17,16 +17,18 @@ Route::middleware('auth')->group(function () {
     // KYC Routes
     Route::get('/dashboard/kyc', 'App\Http\Controllers\user\KycController@index')->name('user.kyc_dashboard');
     Route::get('/dashboard/kyc/submit', 'App\Http\Controllers\user\KycController@submit_kyc')
-        ->name('user.submit_kyc');
+        ->name('users.submit_kyc');
     Route::post('/dashboard/kyc/submit', 'App\Http\Controllers\user\KycController@store_kyc')
-        ->name('user.store_kyc');
+        ->name('users.store_kyc');
 });
 
 require __DIR__.'/auth.php';
 
+// Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Redirect /admin to /admin/dashboard
     Route::redirect('/', '/admin/dashboard');
     Route::get('/dashboard', 'App\Http\Controllers\admin\AdminController@index')->name('admin.dashboard');
+    Route::get('/dashboard/users', 'App\Http\Controllers\admin\AdminController@users')->name('admin.users');
 
 });

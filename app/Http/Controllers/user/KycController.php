@@ -21,10 +21,10 @@ class KycController extends Controller
         } else {
             $verifiedkyc = false;
         }
-        return view('user.kyc.kyc_dashboard', ['hasSubmittedKYC' => $hasSubmittedKYC, 'verifiedkyc' => $verifiedkyc]);
+        return view('users.kyc.kyc_dashboard', ['hasSubmittedKYC' => $hasSubmittedKYC, 'verifiedkyc' => $verifiedkyc]);
     }
 
-    // Check if user has KYC in KYC_Data Table by email
+    // Check if users has KYC in KYC_Data Table by email
     public function hasSubmittedKYC()
     {
         $user = auth()->user();
@@ -36,18 +36,18 @@ class KycController extends Controller
     {
         $hasSubmittedKYC = $this->hasSubmittedKYC();
         if ($hasSubmittedKYC) {
-            return redirect()->route('user.kyc_dashboard')->with('message', 'You Already Submitted KYC');
+            return redirect()->route('users.kyc_dashboard')->with('message', 'You Already Submitted KYC');
         }
         else
         $user = auth()->user();
-        return view('user.kyc.submit_kyc', ['user' => $user]);
+        return view('users.kyc.submit_kyc', ['users' => $user]);
     }
 
     // Store KYC
     public function store_kyc(Request $request)
     {
 
-        // Get the ID of the currently authenticated user
+        // Get the ID of the currently authenticated users
         $userid = auth()->id();
 
         // Validate and store KYC form data
@@ -63,6 +63,6 @@ class KycController extends Controller
             $kycData->update(['documentImage_path' => $docImage]);
         }
 
-        return redirect()->route('user.kyc_dashboard');
+        return redirect()->route('users.kyc_dashboard');
     }
 }

@@ -19,7 +19,7 @@ class AdminMiddleware
         // Allowed User Groups That has Access to the Admin Panel
         $allowedUserGroups = ['moderator', 'administrator', 'manager'];
 
-        // Check if user is admin
+        // Check if users is admin
         if (auth()->check() && in_array(auth()->user()->userGroup, $allowedUserGroups)) {
             return $next($request);
         }
