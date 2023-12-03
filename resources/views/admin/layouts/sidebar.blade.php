@@ -3,6 +3,6 @@
     <div class="list-group">
         <a href="{{route('admin.dashboard')}}" class="list-group-item list-group-item-action">Dashboard</a>
         <a href="{{route('admin.users')}}" class="list-group-item list-group-item-action">Users</a>
-        <a href="#" class="list-group-item list-group-item-action">Settings</a>
+        <a href="{{route('admin.kyc')}}" class="list-group-item list-group-item-action">KYCs</a>
     </div>
 </div>

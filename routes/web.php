@@ -30,5 +30,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::redirect('/', '/admin/dashboard');
     Route::get('/dashboard', 'App\Http\Controllers\admin\AdminController@index')->name('admin.dashboard');
     Route::get('/dashboard/users', 'App\Http\Controllers\admin\AdminController@users')->name('admin.users');
+    // KYC Admin Routes
+    Route::get('/dashboard/kyc', 'App\Http\Controllers\admin\AdminController@kyc')->name('admin.kyc');
+    Route::get('/dashboard/kyc/review/{id}', 'App\Http\Controllers\admin\AdminController@kyc_review')
+        ->name('admin.kyc_review');
 
 });
