@@ -15,10 +15,14 @@
                 <p>Choose an option:</p>
             </div>
 
+            @auth
+                you are logged in
+            @else
             <div class="text-center">
                 <a href="{{ route('login') }}" class="btn btn-primary btn-lg mr-3">Login</a>
                 <a href="{{ route('register') }}" class="btn btn-success btn-lg">Register</a>
             </div>
+            @endauth
         </div>
     </div>
 

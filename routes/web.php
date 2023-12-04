@@ -20,6 +20,12 @@ Route::middleware('auth')->group(function () {
         ->name('user.submit_kyc');
     Route::post('/dashboard/kyc/submit', 'App\Http\Controllers\user\KycController@store_kyc')
         ->name('user.store_kyc');
+    // Advertise Routes
+    Route::get('/advertises', 'App\Http\Controllers\user\AdvertiseController@advertise_list')->name('user.advertises');
+    Route::get('/advertises/submit', 'App\Http\Controllers\user\AdvertiseController@advertise_submit')
+        ->name('user.advertises.submit');
+    Route::post('/advertises/submit', 'App\Http\Controllers\user\AdvertiseController@advertise_store')
+        ->name('user.advertises_store');
 });
 
 require __DIR__.'/auth.php';
@@ -38,5 +44,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::match(['post', 'delete'],'/dashboard/kyc/review/{id}', 'App\Http\Controllers\admin\AdminController@kyc_update')
         ->name('admin.kyc_update');
+
+    // Advertise Admin Routes
+    Route::get('/dashboard/categories', 'App\Http\Controllers\admin\AdminController@categories')
+        ->name('admin.categories');
+    Route::get('/dashboard/categories/create', 'App\Http\Controllers\admin\AdminController@categories_create')
+        ->name('admin.categories_create');
+    Route::post('/dashboard/categories/create', 'App\Http\Controllers\admin\AdminController@categories_store')
+        ->name('admin.categories_store');
+    Route::get('/dashboard/categories/create/{id}', 'App\Http\Controllers\admin\AdminController@categories_edit')
+        ->name('admin.categories_edit');
+    Route::get('/dashboard/categories/edit/{id}', 'App\Http\Controllers\admin\AdminController@categories_edit')
+        ->name('admin.categories_edit');
+    Route::post('/dashboard/categories/edit/{id}', 'App\Http\Controllers\admin\AdminController@categories_update')
+        ->name('admin.categories_update');
+    Route::delete('/dashboard/categories/create/{id}', 'App\Http\Controllers\admin\AdminController@categories_delete')
+        ->name('admin.categories_delete');
 
 });

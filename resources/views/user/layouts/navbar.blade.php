@@ -19,7 +19,10 @@
                 <a class="nav-link" href="{{route('admin.dashboard')}}">Admin Panel</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
+                <a class="nav-link" href="{{route('user.advertises')}}">Advertises</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('logout')}}">Logout (FIX)</a>
             </li>
         </ul>
     </div>

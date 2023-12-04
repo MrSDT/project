@@ -47,7 +47,7 @@ class KycController extends Controller
     public function store_kyc(Request $request)
     {
 
-        // Get the ID of the currently authenticated users
+        // Get the ID of the currently authenticated user
         $userid = auth()->id();
 
         // Validate and store KYC form data

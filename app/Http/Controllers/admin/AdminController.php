@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\KycData;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -56,5 +57,52 @@ class AdminController extends Controller
         return redirect()->route('admin.kyc')->with('success', 'KYC Updated');
     }
 
+    // Advertise Section
+
+    public function categories()
+    {
+        $category = Category::all();
+
+        return view('admin.advertise.categoryList', ['category' => $category]);
+    }
+
+    public function categories_create()
+    {
+        return view('admin.advertise.category_create');
+    }
+
+    public function categories_store(Request $request)
+    {
+        $validate = $request->validate([
+            'categoryName' => 'required|max:255'
+        ]);
+        Category::create($validate);
+
+        return redirect()->route('admin.categories')->with('success', 'Category Created');
+    }
+
+    public function categories_edit($id)
+    {
+        $category = Category::all()->find($id);
+        return view('admin.advertise.categories_edit', ['category' => $category]);
+    }
+
+    public function categories_update(Request $request, $id)
+    {
+        $validate = $request->validate([
+            'categoryName' => 'required|max:255'
+        ]);
+        $category = Category::find($id);
+        
+        $category->update($validate);
+        return redirect()->route('admin.categories')->with('success' , 'Category Updated');
+    }
+
+    public function categories_delete($id)
+    {
+        $category = Category::findorfail($id);
+        $category->delete();
+        return redirect()->route('admin.categories')->with('success' , 'Category Deleted');
+    }
 
 }

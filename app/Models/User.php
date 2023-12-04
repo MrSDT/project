@@ -58,4 +58,8 @@ class User extends Authenticatable
         return $this->hasOne(KycData::class, 'email', 'email');
     }
 
+    public function advertise()
+    {
+        return $this->hasOne(AdvertiseData::class, 'email', 'email');
+    }
 }

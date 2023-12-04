@@ -16,7 +16,7 @@
                 <a class="nav-link" href="#">Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Settings</a>
+                <a class="nav-link" href="{{route('user.index')}}">Website</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Logout</a>
