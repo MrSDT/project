@@ -10,7 +10,7 @@
         <div class="card-header text-center">
             <h2>Submit KYC</h2>
         </div>
-        <form class="m-3" action="{{route('users.store_kyc')}}" method="post">
+        <form class="m-3" action="{{route('user.store_kyc')}}" method="post">
             @csrf
             @method('POST')
             <div class="form-group">
@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label for="homeAddress">Home Address</label>
                 <input type="text" class="form-control" id="homeAddress" placeholder="Enter Home Address"
-                       name="homeAddress" value="123 Blv 19 Ave New York City">
+                       name="homeAddress">
             </div>
             <div class="form-group">
                 <label for="dateOfBirth">Date Of Birth</label>

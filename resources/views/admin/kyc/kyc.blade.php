@@ -17,9 +17,19 @@
 
 @section('content')
 
+
+
     <div class="col-md-10">
         <!-- Content -->
         <h2>KYCs</h2>
+
+        @if(session('success'))
+            <div class="alert alert-success">
+
+                {{ session('success') }}
+
+            </div>
+        @endif
 
         <table class="table table-striped table-hover mt-4 table-bordered">
             <thead>

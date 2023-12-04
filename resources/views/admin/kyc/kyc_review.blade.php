@@ -57,7 +57,7 @@
                         {{$kycDetails->dateOfBirth}}
                     </td>
                     <td>
-                        <img src="{{$kycDetails->documentImage_path}}">
+                        <img width="200px" height="200px" src="{{ asset('documents/default.JPEG')}}">
                     </td>
                     <td>
                         @if($kycDetails->verified == 0)
@@ -70,9 +70,25 @@
                         {{$kycDetails->created_at}}
                     </td>
                     <td>
-                        <span class="badge text-bg-success">Verified</span>
-                        <span class="badge text-bg-warning">Not Verified</span>
-                        <span class="badge text-bg-danger">Delete KYC</span>
+                        @if($kycDetails->verified == 0)
+                        <form action="{{route('admin.kyc_update', $kycDetails->id)}}" method="post">
+                            @csrf
+                            @method('POST')
+                            <button class="badge text-bg-success">Verify</button>
+                        </form>
+                        @else
+                        <form action="{{route('admin.kyc_update', $kycDetails->id)}}" method="post">
+                            @csrf
+                            @method('POST')
+                            <button class="badge text-bg-warning">pending</button>
+                        </form>
+                        @endif
+                        <form action="{{route('admin.kyc_update', $kycDetails->id)}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                        <button class="badge text-bg-danger">Delete KYC</button>
+                        </form>
+
                     </td>
                 </tr>
             </tbody>

@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 
 
 // User Routes
-Route::get('/', 'App\Http\Controllers\user\UserController@index')->name('users.index');
+Route::get('/', 'App\Http\Controllers\user\UserController@index')->name('user.index');
 
 
 Route::middleware('auth')->group(function () {
@@ -17,9 +17,9 @@ Route::middleware('auth')->group(function () {
     // KYC Routes
     Route::get('/dashboard/kyc', 'App\Http\Controllers\user\KycController@index')->name('user.kyc_dashboard');
     Route::get('/dashboard/kyc/submit', 'App\Http\Controllers\user\KycController@submit_kyc')
-        ->name('users.submit_kyc');
+        ->name('user.submit_kyc');
     Route::post('/dashboard/kyc/submit', 'App\Http\Controllers\user\KycController@store_kyc')
-        ->name('users.store_kyc');
+        ->name('user.store_kyc');
 });
 
 require __DIR__.'/auth.php';
@@ -32,7 +32,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard/users', 'App\Http\Controllers\admin\AdminController@users')->name('admin.users');
     // KYC Admin Routes
     Route::get('/dashboard/kyc', 'App\Http\Controllers\admin\AdminController@kyc')->name('admin.kyc');
+
     Route::get('/dashboard/kyc/review/{id}', 'App\Http\Controllers\admin\AdminController@kyc_review')
         ->name('admin.kyc_review');
+
+    Route::match(['post', 'delete'],'/dashboard/kyc/review/{id}', 'App\Http\Controllers\admin\AdminController@kyc_update')
+        ->name('admin.kyc_update');
 
 });

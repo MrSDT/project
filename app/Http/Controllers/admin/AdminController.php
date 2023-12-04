@@ -22,7 +22,7 @@ class AdminController extends Controller
 
     public function kyc()
     {
-        $data = KycData::all();
+        $data = KycData::latest()->get();
         return view('admin.kyc.kyc', ['data' => $data]);
     }
 
@@ -31,4 +31,30 @@ class AdminController extends Controller
         $kycDetails = KycData::all()->find($id);
         return view('admin.kyc.kyc_review', ['kycDetails' => $kycDetails]);
     }
+
+
+    public function kyc_update(Request $request, $id)
+    {
+        $kycdata = KycData::findOrFail($id);
+        if ($request->isMethod('post'))
+        {
+            // Verify KYC
+            if ($kycdata->verified == 0)
+            {
+                $kycdata->update(['verified' => 1]);
+            }
+            else
+            {
+                $kycdata->update(['verified' => 0]);
+            }
+        }
+        elseif ($request->isMethod('delete'))
+        {
+            // Delete KYC
+            $kycdata->delete();
+        }
+        return redirect()->route('admin.kyc')->with('success', 'KYC Updated');
+    }
+
+
 }

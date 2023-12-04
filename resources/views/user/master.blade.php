@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body class="bg-light">
-
+@include('user.layouts.navbar')
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">

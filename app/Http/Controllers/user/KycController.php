@@ -21,7 +21,7 @@ class KycController extends Controller
         } else {
             $verifiedkyc = false;
         }
-        return view('users.kyc.kyc_dashboard', ['hasSubmittedKYC' => $hasSubmittedKYC, 'verifiedkyc' => $verifiedkyc]);
+        return view('user.kyc.kyc_dashboard', ['hasSubmittedKYC' => $hasSubmittedKYC, 'verifiedkyc' => $verifiedkyc]);
     }
 
     // Check if users has KYC in KYC_Data Table by email
@@ -36,11 +36,11 @@ class KycController extends Controller
     {
         $hasSubmittedKYC = $this->hasSubmittedKYC();
         if ($hasSubmittedKYC) {
-            return redirect()->route('users.kyc_dashboard')->with('message', 'You Already Submitted KYC');
+            return redirect()->route('user.kyc_dashboard')->with('message', 'You Already Submitted KYC');
         }
         else
         $user = auth()->user();
-        return view('users.kyc.submit_kyc', ['users' => $user]);
+        return view('user.kyc.submit_kyc', ['user' => $user]);
     }
 
     // Store KYC
@@ -53,16 +53,22 @@ class KycController extends Controller
         // Validate and store KYC form data
         $kycData = KycData::create(array_merge($request->all(), ['userid' => $userid]));
 
-        // Handle Image Upload
-        if ($request->hasFile('documentImage_path')) {
-            $file = $request->file('documentImage_path');
-            $docImage = time().'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('documents'), $docImage);
+        // Handle the image upload
 
-            // Store Document Image Path In Database
-            $kycData->update(['documentImage_path' => $docImage]);
+        if ($request->hasFile('documentImage_path')) {
+
+            $image = $request->file('documentImage_path');
+
+            $name = time().'.'.$image->getClientOriginalExtension();
+
+            $destinationPath = public_path('documents');
+
+            $image->move($destinationPath, $name);
+
+            $kycData->image_path = $name;
+
         }
 
-        return redirect()->route('users.kyc_dashboard');
+        return redirect()->route('user.kyc_dashboard');
     }
 }
