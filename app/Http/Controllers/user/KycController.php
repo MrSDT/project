@@ -71,4 +71,6 @@ class KycController extends Controller
 
         return redirect()->route('user.kyc_dashboard');
     }
+
+
 }

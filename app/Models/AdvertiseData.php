@@ -32,4 +32,9 @@ class AdvertiseData extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function kyc()
+    {
+        return $this->belongsTo(KycData::class, 'userid');
+    }
 }

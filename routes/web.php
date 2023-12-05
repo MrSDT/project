@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
         ->name('user.advertises_submit');
     Route::post('/advertises/submit', 'App\Http\Controllers\user\AdvertiseController@advertise_store')
         ->name('user.advertises_store');
+    Route::get('/advertises/{id}', 'App\Http\Controllers\user\AdvertiseController@advertise_details')
+        ->name('user.advertises_details');
 });
 
 require __DIR__.'/auth.php';

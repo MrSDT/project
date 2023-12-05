@@ -9,6 +9,8 @@ use App\Models\KycData;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+
 class AdminController extends Controller
 {
     public function index()
@@ -114,8 +116,18 @@ class AdminController extends Controller
 
     public function advertise_review($id)
     {
+        $hasSubmittedKYC = $this->hasSubmittedKYC();
+        $user = Auth::user();
+        $userkyc = $user->kyc;
+
+        if ($userkyc) {
+            $verifiedkyc = $userkyc->verified;
+        } else {
+            $verifiedkyc = false;
+        }
         $advertise = AdvertiseData::findorfail($id);
-        return view('admin.advertise.advertise_review', ['advertise' => $advertise]);
+        return view('admin.advertise.advertise_review', ['advertise' => $advertise, 'hasSubmittedKYC' => $hasSubmittedKYC,
+            'verifiedkyc' => $verifiedkyc]);
     }
 
     public function advertise_delete($id)
@@ -148,4 +160,10 @@ class AdminController extends Controller
         return redirect()->route('admin.advertises')->with('success', 'Advertise Updated');
     }
 
+    // Check if users has KYC in KYC_Data Table by email
+    public function hasSubmittedKYC()
+    {
+        $user = auth()->user();
+        return KycData::where('email', $user->email)->count() > 0;
+    }
 }

@@ -40,6 +40,7 @@
                 <th scope="col">Category Name</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
+                <th scope="col">KYC Status</th>
             </tr>
             </thead>
             <tbody>
@@ -83,6 +84,13 @@
                         <button class="badge text-bg-danger">Delete Advertise</button>
                     </form>
 
+                </td>
+                <td>
+                    @if($hasSubmittedKYC and $verifiedkyc)
+                        <span class="badge text-bg-primary">Verified</span>
+                    @else
+                        <span class="badge text-bg-danger">Not Verified</span>
+                    @endif
                 </td>
             </tr>
             </tbody>

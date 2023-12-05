@@ -26,5 +26,10 @@ class KycData extends Model
         return $this->belongsTo(User::class, 'userid');
     }
 
+    public function advertise()
+    {
+        return $this->hasMany(AdvertiseData::class, 'email', 'email');
+    }
+
 
 }

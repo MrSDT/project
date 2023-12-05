@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\AdvertiseData;
 use App\Models\Category;
+use App\Models\KycData;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class AdvertiseController extends Controller
 {
     public function advertise_list()
     {
-        return view('user.advertise.advertise_list');
+        $advertises = AdvertiseData::latest()->get();
+        return view('user.advertise.advertise_list', ['advertises' => $advertises]);
     }
 
     public function advertise_submit()
@@ -45,5 +47,11 @@ class AdvertiseController extends Controller
             $advertiseData->image_path = $name;
         }
         return redirect()->route('user.advertises')->with('success', 'Your Advertise Has Been Created');
+    }
+
+    public function advertise_details($id)
+    {
+        $ad = AdvertiseData::findorfail($id);
+        return view('user.advertise.advertise_details', ['ad' => $ad]);
     }
 }
