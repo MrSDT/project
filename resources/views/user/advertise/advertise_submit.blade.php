@@ -13,11 +13,11 @@
 <form action="{{route('user.advertises_store')}}" method="post">
     @csrf
     @method('POST')
-        <select class="form-select mt-3 mb-3" aria-label="Default select example">
+        <select name="categoryName" class="form-select mt-3 mb-3" aria-label="categoryName">
             <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            @foreach($category as $cat)
+            <option value="{{$cat->categoryName}}">{{$cat->categoryName}}</option>
+            @endforeach
         </select>
 
         <div class="mb-3">

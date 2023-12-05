@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     // Advertise Routes
     Route::get('/advertises', 'App\Http\Controllers\user\AdvertiseController@advertise_list')->name('user.advertises');
     Route::get('/advertises/submit', 'App\Http\Controllers\user\AdvertiseController@advertise_submit')
-        ->name('user.advertises.submit');
+        ->name('user.advertises_submit');
     Route::post('/advertises/submit', 'App\Http\Controllers\user\AdvertiseController@advertise_store')
         ->name('user.advertises_store');
 });
@@ -45,7 +45,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::match(['post', 'delete'],'/dashboard/kyc/review/{id}', 'App\Http\Controllers\admin\AdminController@kyc_update')
         ->name('admin.kyc_update');
 
-    // Advertise Admin Routes
+    // Category Admin Routes
     Route::get('/dashboard/categories', 'App\Http\Controllers\admin\AdminController@categories')
         ->name('admin.categories');
     Route::get('/dashboard/categories/create', 'App\Http\Controllers\admin\AdminController@categories_create')
@@ -60,5 +60,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.categories_update');
     Route::delete('/dashboard/categories/create/{id}', 'App\Http\Controllers\admin\AdminController@categories_delete')
         ->name('admin.categories_delete');
+
+    // Advertise Admin Routes
+    Route::get('/dashboard/advertises', 'App\Http\Controllers\admin\AdminController@advertises')
+        ->name('admin.advertises');
+    Route::get('/dashboard/advertises/review/{id}', 'App\Http\Controllers\admin\AdminController@advertise_review')
+        ->name('admin.advertise_review');
+    Route::match(['post', 'delete'],'/dashboard/advertise/review/{id}', 'App\Http\Controllers\admin\AdminController@advertise_update')
+        ->name('admin.advertise_update');
 
 });

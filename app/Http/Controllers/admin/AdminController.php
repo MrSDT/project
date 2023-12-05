@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdvertiseData;
 use App\Models\Category;
 use App\Models\KycData;
 use App\Models\User;
@@ -93,7 +94,7 @@ class AdminController extends Controller
             'categoryName' => 'required|max:255'
         ]);
         $category = Category::find($id);
-        
+
         $category->update($validate);
         return redirect()->route('admin.categories')->with('success' , 'Category Updated');
     }
@@ -103,6 +104,48 @@ class AdminController extends Controller
         $category = Category::findorfail($id);
         $category->delete();
         return redirect()->route('admin.categories')->with('success' , 'Category Deleted');
+    }
+
+    public function advertises()
+    {
+        $advertise = AdvertiseData::all();
+        return view('admin.advertise.advertise_list', ['advertise' => $advertise]);
+    }
+
+    public function advertise_review($id)
+    {
+        $advertise = AdvertiseData::findorfail($id);
+        return view('admin.advertise.advertise_review', ['advertise' => $advertise]);
+    }
+
+    public function advertise_delete($id)
+    {
+        $advertise = AdvertiseData::findorfail($id);
+        $advertise->delete();
+        return redirect()->route('admin.advertises')->with('success', 'Advertise Deleted');
+    }
+
+    public function advertise_update(Request $request, $id)
+    {
+        $advertise = AdvertiseData::findOrFail($id);
+        if ($request->isMethod('post'))
+        {
+            // Verify KYC
+            if ($advertise->verified == 0)
+            {
+                $advertise->update(['verified' => 1]);
+            }
+            else
+            {
+                $advertise->update(['verified' => 0]);
+            }
+        }
+        elseif ($request->isMethod('delete'))
+        {
+            // Delete KYC
+            $advertise->delete();
+        }
+        return redirect()->route('admin.advertises')->with('success', 'Advertise Updated');
     }
 
 }

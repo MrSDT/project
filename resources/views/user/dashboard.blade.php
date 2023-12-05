@@ -23,6 +23,7 @@
                 <p><strong>User Group:</strong> {{$userinfo->userGroup}}</p>
                 <p><strong>Online Status:</strong> {{$userinfo->onlineStatus}}</p>
                 <p><strong>Phone Number Verified:</strong> {{$userinfo->phoneNumber_verified}}</p>
+                <p><strong>Number of Advertises:</strong> {{$adcount}}</p>
             </div>
         </div>
     </div>

@@ -6,7 +6,13 @@
 
 @section('content')
 
+@if(session('success'))
+        <div class="alert alert-success">
 
+            {{ session('success') }}
+
+        </div>
+    @endif
     <div class="container text-center">
         <a href="{{route('user.advertises_submit')}}" class="btn btn-primary text-white mb-3">Submit Advertise</a>
 

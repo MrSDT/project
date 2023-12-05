@@ -6,5 +6,6 @@
         <a href="{{route('admin.kyc')}}" class="list-group-item list-group-item-action">KYCs</a>
         <a href="{{route('admin.categories')}}" class="list-group-item list-group-item-action">Categories</a>
         <a href="{{route('admin.categories_create')}}" class="list-group-item list-group-item-action">Create Categories</a>
+        <a href="{{route('admin.advertises')}}" class="list-group-item list-group-item-action">Advertise List</a>
     </div>
 </div>

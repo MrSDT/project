@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdvertiseData;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -17,16 +18,19 @@ class AdvertiseController extends Controller
     public function advertise_submit()
     {
         $user = auth()->user();
-        return view('user.advertise.advertise_submit', ['user' => $user]);
+        $category = Category::all();
+        return view('user.advertise.advertise_submit', ['user' => $user , 'category' => $category]);
     }
 
     public function advertise_store(Request $request)
     {
         // Get the ID of the currently authenticated user
-        $userid = auth()->user();
+        $userid = auth()->user()->id;
 
-        // Validate and store Advertise form data
+        // Validate and store KYC form data
         $advertiseData = AdvertiseData::create(array_merge($request->all(), ['userid' => $userid]));
+
+        // Handle the image upload
 
         if ($request->hasFile('advertiseImage_path')) {
 
@@ -40,6 +44,6 @@ class AdvertiseController extends Controller
 
             $advertiseData->image_path = $name;
         }
-        return redirect()->route('user.advertises');
+        return redirect()->route('user.advertises')->with('success', 'Your Advertise Has Been Created');
     }
 }

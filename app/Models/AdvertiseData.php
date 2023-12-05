@@ -9,6 +9,8 @@ class AdvertiseData extends Model
 {
     use HasFactory;
 
+    protected $table = 'advertise';
+    protected $primaryKey = 'id';
     protected $fillable = [
       'userid',
       'categoryName',

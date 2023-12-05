@@ -16,7 +16,8 @@ class UserController extends Controller
     public function userDashboard()
     {
         $userinfo = auth()->user();
-        return view('user.dashboard', ['userinfo' => $userinfo]);
+        $adcount = $userinfo->advertise->count();
+        return view('user.dashboard', ['userinfo' => $userinfo, 'adcount' => $adcount]);
     }
 
 

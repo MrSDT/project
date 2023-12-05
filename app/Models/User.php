@@ -60,6 +60,6 @@ class User extends Authenticatable
 
     public function advertise()
     {
-        return $this->hasOne(AdvertiseData::class, 'email', 'email');
+        return $this->hasMany(AdvertiseData::class, 'email', 'email');
     }
 }

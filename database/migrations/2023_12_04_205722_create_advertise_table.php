@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('advertise', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('userid');
-            $table->unsignedBigInteger('categoryName');
+            $table->string('categoryName');
             $table->string('title');
             $table->string('description');
             $table->string('advertiseImage_path')->nullable();
