@@ -9,7 +9,7 @@
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Users</li>
+            <li class="breadcrumb-item active" aria-current="page">Edit {{$user->firstName}} {{$user->lastName}}</li>
         </ol>
     </nav>
 
@@ -44,7 +44,6 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($users as $user)
             <tr>
                 <th scope="row">
                     {{$user->id}}
@@ -82,10 +81,36 @@
                     {{$user->created_at}}
                 </td>
                 <td>
-                    <a class="btn btn-primary" href="{{route('admin.users_edit', $user->id)}}">Edit</a>
+                    <button class="btn btn-info text-white">Update User Group</button>
+                    @if($user->phoneNumber_verified == 0)
+                        <form action="{{route('admin.user_update', $user->id)}}" method="post">
+                            @csrf
+                            @method('POST')
+                            <button class="badge text-bg-success">Verify Phone Number</button>
+                        </form>
+                    @else
+                        <form action="{{route('admin.user_update', $user->id)}}" method="post">
+                            @csrf
+                            @method('POST')
+                            <button class="badge text-bg-warning">Make Pending</button>
+                        </form>
+                    @endif
+                    <br/>
+                        @if($user->email_verified_at == NULL)
+                            <form action="{{route('verification.send')}}" method="post">
+                                @csrf
+                                @method('POST')
+                                <button class="badge text-bg-primary">Send Email Verification</button>
+                            </form>
+                        @endif
+                        <br/>
+                    <form action="{{route('admin.user_update', $user->id)}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
-            @endforeach
             </tbody>
         </table>
     </div>

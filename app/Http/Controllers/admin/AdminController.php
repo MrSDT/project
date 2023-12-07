@@ -23,8 +23,37 @@ class AdminController extends Controller
 
     public function users()
     {
-        $users = User::all();
+        $users = User::latest()->get();
         return view('admin.users.users', ['users' => $users]);
+    }
+
+    public function users_edit($id)
+    {
+        $user = User::findorfail($id);
+        return view('admin.users.users_edit', ['user' => $user]);
+    }
+
+    public function user_update(Request $request, $id)
+    {
+        $userinfo = User::findOrFail($id);
+        if ($request->isMethod('post'))
+        {
+            // Verify PhoneNumber
+            if ($userinfo->phoneNumber_verified == 0)
+            {
+                $userinfo->update(['phoneNumber_verified' => 1]);
+            }
+            else
+            {
+                $userinfo->update(['phoneNumber_verified' => 0]);
+            }
+        }
+        elseif ($request->isMethod('delete'))
+        {
+            // Delete KYC
+            $userinfo->delete();
+        }
+        return redirect()->route('admin.users')->with('success', 'User Updated');
     }
 
     public function kyc()

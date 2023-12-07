@@ -46,13 +46,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Redirect /admin to /admin/dashboard
     Route::redirect('/', '/admin/dashboard');
     Route::get('/dashboard', 'App\Http\Controllers\admin\AdminController@index')->name('admin.dashboard');
+
+    // User Section Admin Routes
     Route::get('/dashboard/users', 'App\Http\Controllers\admin\AdminController@users')->name('admin.users');
+    Route::get('/dashboard/users/{id}', 'App\Http\Controllers\admin\AdminController@users_edit')
+        ->name('admin.users_edit');
+    Route::match(['post', 'delete'],'/dashboard/users/{id}', 'App\Http\Controllers\admin\AdminController@user_update')
+        ->name('admin.user_update');
+
     // KYC Admin Routes
     Route::get('/dashboard/kyc', 'App\Http\Controllers\admin\AdminController@kyc')->name('admin.kyc');
-
     Route::get('/dashboard/kyc/review/{id}', 'App\Http\Controllers\admin\AdminController@kyc_review')
         ->name('admin.kyc_review');
-
     Route::match(['post', 'delete'],'/dashboard/kyc/review/{id}', 'App\Http\Controllers\admin\AdminController@kyc_update')
         ->name('admin.kyc_update');
 
