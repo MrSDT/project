@@ -28,6 +28,15 @@ Route::middleware('auth')->group(function () {
         ->name('user.advertises_store');
     Route::get('/advertises/{id}', 'App\Http\Controllers\user\AdvertiseController@advertise_details')
         ->name('user.advertises_details');
+
+    // Jobs Routes
+    Route::get('/jobs', 'App\Http\Controllers\user\JobsController@jobs_list')->name('user.jobs');
+    Route::get('/jobs/submit', 'App\Http\Controllers\user\JobsController@jobs_submit')
+        ->name('user.jobs_submit');
+    Route::post('/jobs/submit', 'App\Http\Controllers\user\JobsController@jobs_store')
+        ->name('user.jobs_store');
+    Route::get('/jobs/{id}', 'App\Http\Controllers\user\JobsController@jobs_details')
+        ->name('user.jobs_details');
 });
 
 require __DIR__.'/auth.php';
@@ -70,5 +79,29 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         ->name('admin.advertise_review');
     Route::match(['post', 'delete'],'/dashboard/advertise/review/{id}', 'App\Http\Controllers\admin\AdminController@advertise_update')
         ->name('admin.advertise_update');
+
+    // Jobs Admin Routes
+    Route::get('/dashboard/jobs', 'App\Http\Controllers\admin\AdminController@jobs')
+        ->name('admin.jobs');
+    Route::get('/dashboard/jobs/review/{id}', 'App\Http\Controllers\admin\AdminController@jobs_review')
+        ->name('admin.jobs_review');
+    Route::match(['post', 'delete'],'/dashboard/jobs/review/{id}', 'App\Http\Controllers\admin\AdminController@jobs_update')
+        ->name('admin.jobs_update');
+
+    // Jobs Category Admin Routes
+    Route::get('/dashboard/jobsCategories', 'App\Http\Controllers\admin\AdminController@jobsCategories')
+        ->name('admin.jobsCategories');
+    Route::get('/dashboard/jobsCategories/create', 'App\Http\Controllers\admin\AdminController@jobsCategories_create')
+        ->name('admin.jobsCategories_create');
+    Route::post('/dashboard/jobsCategories/create', 'App\Http\Controllers\admin\AdminController@jobsCategories_store')
+        ->name('admin.jobsCategories_store');
+    Route::get('/dashboard/jobsCategories/create/{id}', 'App\Http\Controllers\admin\AdminController@jobsCategories_edit')
+        ->name('admin.jobsCategories_edit');
+    Route::get('/dashboard/jobsCategories/edit/{id}', 'App\Http\Controllers\admin\AdminController@jobsCategories_edit')
+        ->name('admin.jobsCategories_edit');
+    Route::post('/dashboard/jobsCategories/edit/{id}', 'App\Http\Controllers\admin\AdminController@jobsCategories_update')
+        ->name('admin.jobsCategories_update');
+    Route::delete('/dashboard/jobsCategories/create/{id}', 'App\Http\Controllers\admin\AdminController@jobsCategories_delete')
+        ->name('admin.jobsCategories_delete');
 
 });

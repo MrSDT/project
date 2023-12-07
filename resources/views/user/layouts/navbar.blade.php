@@ -22,6 +22,9 @@
                 <a class="nav-link" href="{{route('user.advertises')}}">Advertises</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{route('user.jobs')}}">Jobs</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{route('logout')}}">Logout (FIX)</a>
             </li>
         </ul>

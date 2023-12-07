@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\AdvertiseData;
 use App\Models\Category;
+use App\Models\JobsCategory;
+use App\Models\JobsData;
 use App\Models\KycData;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -159,6 +161,108 @@ class AdminController extends Controller
         }
         return redirect()->route('admin.advertises')->with('success', 'Advertise Updated');
     }
+
+    // Jobs
+
+    public function jobsCategories()
+    {
+        $category = JobsCategory::all();
+
+        return view('admin.jobs.jobsCategoryList', ['category' => $category]);
+    }
+
+    public function jobsCategories_create()
+    {
+        return view('admin.jobs.jobsCategory_create');
+    }
+
+    public function jobsCategories_store(Request $request)
+    {
+        $validate = $request->validate([
+            'categoryName' => 'required|max:255'
+        ]);
+        JobsCategory::create($validate);
+
+        return redirect()->route('admin.jobsCategories')->with('success', 'Category Created');
+    }
+
+    public function jobsCategories_edit($id)
+    {
+        $category = JobsCategory::all()->find($id);
+        return view('admin.jobs.jobsCategory_edit', ['category' => $category]);
+    }
+
+    public function jobsCategories_update(Request $request, $id)
+    {
+        $validate = $request->validate([
+            'categoryName' => 'required|max:255'
+        ]);
+        $category = JobsCategory::find($id);
+
+        $category->update($validate);
+        return redirect()->route('admin.jobsCategories')->with('success' , 'Category Updated');
+    }
+
+    public function jobsCategories_delete($id)
+    {
+        $category = JobsCategory::findorfail($id);
+        $category->delete();
+        return redirect()->route('admin.jobsCategories')->with('success' , 'Category Deleted');
+    }
+
+    public function jobs()
+    {
+        $jobs = JobsData::all();
+        return view('admin.jobs.jobs_list', ['jobs' => $jobs]);
+    }
+
+    public function jobs_review($id)
+    {
+        $hasSubmittedKYC = $this->hasSubmittedKYC();
+        $user = Auth::user();
+        $userkyc = $user->kyc;
+
+        if ($userkyc) {
+            $verifiedkyc = $userkyc->verified;
+        } else {
+            $verifiedkyc = false;
+        }
+        $jobs = JobsData::findorfail($id);
+        return view('admin.jobs.jobs_review', ['jobs' => $jobs, 'hasSubmittedKYC' => $hasSubmittedKYC,
+            'verifiedkyc' => $verifiedkyc]);
+    }
+
+    public function jobs_delete($id)
+    {
+        $jobs = JobsData::findorfail($id);
+        $jobs->delete();
+        return redirect()->route('admin.jobs')->with('success', 'Job Deleted');
+    }
+
+    public function jobs_update(Request $request, $id)
+    {
+        $jobs = JobsData::findOrFail($id);
+        if ($request->isMethod('post'))
+        {
+            // Verify KYC
+            if ($jobs->verified == 0)
+            {
+                $jobs->update(['verified' => 1]);
+            }
+            else
+            {
+                $jobs->update(['verified' => 0]);
+            }
+        }
+        elseif ($request->isMethod('delete'))
+        {
+            // Delete KYC
+            $jobs->delete();
+        }
+        return redirect()->route('admin.jobs')->with('success', 'Job Updated');
+    }
+
+
 
     // Check if users has KYC in KYC_Data Table by email
     public function hasSubmittedKYC()

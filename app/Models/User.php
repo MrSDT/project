@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(AdvertiseData::class, 'email', 'email');
     }
+
+    public function jobs()
+    {
+        return $this->hasMany(JobsData::class, 'email', 'email');
+    }
 }
