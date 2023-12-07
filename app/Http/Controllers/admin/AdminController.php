@@ -9,6 +9,7 @@ use App\Models\JobsCategory;
 use App\Models\JobsData;
 use App\Models\KycData;
 use App\Models\User;
+use App\Models\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -42,16 +43,19 @@ class AdminController extends Controller
     public function kyc_update(Request $request, $id)
     {
         $kycdata = KycData::findOrFail($id);
+        $user = $kycdata->user;
         if ($request->isMethod('post'))
         {
             // Verify KYC
             if ($kycdata->verified == 0)
             {
                 $kycdata->update(['verified' => 1]);
+                $user->update(['userGroup' => 'verified_user']);
             }
             else
             {
                 $kycdata->update(['verified' => 0]);
+                $user->update(['userGroup' => 'registered_user']);
             }
         }
         elseif ($request->isMethod('delete'))
@@ -112,7 +116,7 @@ class AdminController extends Controller
 
     public function advertises()
     {
-        $advertise = AdvertiseData::all();
+        $advertise = AdvertiseData::latest()->get();
         return view('admin.advertise.advertise_list', ['advertise' => $advertise]);
     }
 
@@ -212,7 +216,7 @@ class AdminController extends Controller
 
     public function jobs()
     {
-        $jobs = JobsData::all();
+        $jobs = JobsData::latest()->get();
         return view('admin.jobs.jobs_list', ['jobs' => $jobs]);
     }
 
@@ -242,21 +246,35 @@ class AdminController extends Controller
     public function jobs_update(Request $request, $id)
     {
         $jobs = JobsData::findOrFail($id);
+        $user = $jobs->user;
         if ($request->isMethod('post'))
         {
-            // Verify KYC
+            // Verify Jobs
             if ($jobs->verified == 0)
             {
                 $jobs->update(['verified' => 1]);
+                if ($user->userGroup == 'verified_user')
+                    {
+                        $user->update(['userGroup' => 'job_owner']);
+                    }
             }
             else
             {
                 $jobs->update(['verified' => 0]);
+
+                // Check if user has another verified job
+                $hasAnotherVerifiedJob = JobsData::where('userid', $user->id)->where('verified', 1)->where('id', '<>', $id)->exists();
+
+                if (!$hasAnotherVerifiedJob)
+                {
+                    // Update User Group
+                    $user->update(['userGroup' => 'verified_user']);
+                }
             }
         }
         elseif ($request->isMethod('delete'))
         {
-            // Delete KYC
+            // Delete Jobs
             $jobs->delete();
         }
         return redirect()->route('admin.jobs')->with('success', 'Job Updated');

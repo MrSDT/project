@@ -8,13 +8,25 @@ use App\Models\Category;
 use App\Models\KycData;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdvertiseController extends Controller
 {
     public function advertise_list()
     {
         $advertises = AdvertiseData::latest()->get();
-        return view('user.advertise.advertise_list', ['advertises' => $advertises]);
+        $hasSubmittedKYC = $this->hasSubmittedKYC();
+        $user = Auth::user();
+        $userkyc = $user->kyc;
+
+        if ($userkyc) {
+            $verifiedkyc = $userkyc->verified;
+        } else {
+            $verifiedkyc = false;
+        }
+
+        return view('user.advertise.advertise_list', ['advertises' => $advertises, 'hasSubmittedKYC' => $hasSubmittedKYC,
+            'verifiedkyc' => $verifiedkyc]);
     }
 
     public function advertise_submit()
@@ -53,5 +65,11 @@ class AdvertiseController extends Controller
     {
         $ad = AdvertiseData::findorfail($id);
         return view('user.advertise.advertise_details', ['ad' => $ad]);
+    }
+
+    public function hasSubmittedKYC()
+    {
+        $user = auth()->user();
+        return KycData::where('email', $user->email)->count() > 0;
     }
 }

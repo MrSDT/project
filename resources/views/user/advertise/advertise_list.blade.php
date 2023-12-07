@@ -118,9 +118,19 @@
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Advertise List</h1>
+                @if($hasSubmittedKYC and $verifiedkyc)
                 <p>
                     <a href="{{route('user.advertises_submit')}}" class="btn btn-primary text-white mb-3">Submit Advertise</a>
                 </p>
+                @elseif(!$hasSubmittedKYC)
+                    <a href="{{route('user.submit_kyc')}}" class="btn btn-danger">
+                        Please Submit KYC First to Submit Advertise
+                    </a>
+                    @elseif($hasSubmittedKYC and !$verifiedkyc)
+                    <h2>
+                        Please Wait for your KYC to be Verified
+                    </h2>
+                @endif
             </div>
         </div>
     </section>

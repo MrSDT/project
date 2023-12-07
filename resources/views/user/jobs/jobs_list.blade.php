@@ -117,10 +117,20 @@
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">Advertise List</h1>
-                <p>
-                    <a href="{{route('user.jobs_submit')}}" class="btn btn-primary text-white mb-3">Submit Job</a>
-                </p>
+                <h1 class="fw-light">Jobs List</h1>
+                @if($hasSubmittedKYC and $verifiedkyc)
+                    <p>
+                        <a href="{{route('user.jobs_submit')}}" class="btn btn-primary text-white mb-3">Submit Job</a>
+                    </p>
+                @elseif(!$hasSubmittedKYC)
+                    <a href="{{route('user.submit_kyc')}}" class="btn btn-danger">
+                        Please Submit KYC First to Submit Job
+                    </a>
+                @elseif($hasSubmittedKYC and !$verifiedkyc)
+                    <h2>
+                        Please Wait for your KYC to be Verified
+                    </h2>
+                @endif
             </div>
         </div>
     </section>
@@ -143,9 +153,9 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
                                                 <a href="{{route('user.jobs_details', $job->id)}}" type="button"
-                                                   class="btn btn-sm btn-outline-primary">View Advertise</a>
+                                                   class="btn btn-sm btn-outline-primary">View Job</a>
                                             </div>
-                                            <small class="text-body-secondary">${{$job->workingHours}}</small>
+                                            <small class="text-body-secondary">{{$job->workingHours}}</small>
                                         </div>
                                     </div>
                                 </div>
