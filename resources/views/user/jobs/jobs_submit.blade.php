@@ -10,7 +10,7 @@
         <div class="card-header text-center">
             <h2>Submit Job</h2>
         </div>
-<form action="{{route('user.jobs_store')}}" method="post">
+<form action="{{route('user.jobs_store')}}" method="post" enctype="multipart/form-data">
     @csrf
     @method('POST')
         <select name="categoryName" class="form-select mt-3 mb-3" aria-label="categoryName">

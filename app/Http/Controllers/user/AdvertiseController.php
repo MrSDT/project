@@ -9,6 +9,7 @@ use App\Models\KycData;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdvertiseController extends Controller
 {
@@ -41,23 +42,33 @@ class AdvertiseController extends Controller
         // Get the ID of the currently authenticated user
         $userid = auth()->user()->id;
 
-        // Validate and store KYC form data
-        $advertiseData = AdvertiseData::create(array_merge($request->all(), ['userid' => $userid]));
+        // Validate Form
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'advertiseImage_path' => 'required|mimes:png,jpg,jpeg',
+            'phoneNumber' => 'required',
+            'email' => 'required',
+            'startingPrice' => 'required',
+        ]);
 
         // Handle the image upload
+        $imageName = time() . '.' . $request->title . '.' . $request->advertiseImage_path->extension();
+        $request->advertiseImage_path->move(public_path('advertiseImages'), $imageName);
 
-        if ($request->hasFile('advertiseImage_path')) {
+        // store Advertise form data
+        $advertiseData = AdvertiseData::create([
+            'userid' => $userid,
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'advertiseImage_path' => $imageName,
+            'phoneNumber' => $request->input('phoneNumber'),
+            'email' => $request->input('email'),
+            'startingPrice' => $request->input('startingPrice'),
+            'verified' => 0,
+            'categoryName' => $request->input('categoryName'),
+        ]);
 
-            $image = $request->file('advertiseImage_path');
-
-            $name = time().'.'.$image->getClientOriginalExtension();
-
-            $destinationPath = public_path('advertiseImages');
-
-            $image->move($destinationPath, $name);
-
-            $advertiseData->image_path = $name;
-        }
         return redirect()->route('user.advertises')->with('success', 'Your Advertise Has Been Created');
     }
 

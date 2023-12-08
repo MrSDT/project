@@ -57,7 +57,7 @@
                         {{$kycDetails->dateOfBirth}}
                     </td>
                     <td>
-                        <img width="200px" height="200px" src="{{ asset('documents/default.JPEG')}}">
+                        <img width="200px" height="200px" src="{{asset('kycImages/'.$kycDetails->documentImage_path)}}">
                     </td>
                     <td>
                         @if($kycDetails->verified == 0)

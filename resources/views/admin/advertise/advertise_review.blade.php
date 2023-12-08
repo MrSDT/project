@@ -50,7 +50,7 @@
                 <td>{{$advertise->user->firstName}} {{$advertise->user->lastName}}</td>
                 <td>{{$advertise->description}}</td>
                 <td>
-                <img width="150px" height="150px" src="{{asset('/documents/default.jpeg')}}">
+                <img width="150px" height="150px" src="{{asset('advertiseImages/'.$advertise->advertiseImage_path)}}">
                 </td>
                 <td>{{$advertise->phoneNumber}}</td>
                 <td>{{$advertise->email}}</td>

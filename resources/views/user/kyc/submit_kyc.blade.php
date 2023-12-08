@@ -10,7 +10,7 @@
         <div class="card-header text-center">
             <h2>Submit KYC</h2>
         </div>
-        <form class="m-3" action="{{route('user.store_kyc')}}" method="post">
+        <form class="m-3" action="{{route('user.store_kyc')}}" method="post" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="form-group">

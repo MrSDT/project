@@ -50,7 +50,7 @@
                 <td>{{$jobs->user->firstName}} {{$jobs->user->lastName}}</td>
                 <td>{{$jobs->description}}</td>
                 <td>
-                <img width="150px" height="150px" src="{{asset('/documents/default.jpeg')}}">
+                <img width="150px" height="150px" src="{{asset('jobImages/'.$jobs->jobImage_path)}}">
                 </td>
                 <td>{{$jobs->phoneNumber}}</td>
                 <td>{{$jobs->email}}</td>

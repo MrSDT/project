@@ -1,7 +1,7 @@
 @extends('user.master')
 
 @section('title')
-    KYC Page | Submit KYC
+    Advertise Page | Submit Advertise
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
         <div class="card-header text-center">
             <h2>Submit Advertise</h2>
         </div>
-<form action="{{route('user.advertises_store')}}" method="post">
+<form action="{{route('user.advertises_store')}}" method="post" enctype="multipart/form-data">
     @csrf
     @method('POST')
         <select name="categoryName" class="form-select mt-3 mb-3" aria-label="categoryName">

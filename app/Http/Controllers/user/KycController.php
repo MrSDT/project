@@ -46,28 +46,34 @@ class KycController extends Controller
     // Store KYC
     public function store_kyc(Request $request)
     {
-
         // Get the ID of the currently authenticated user
-        $userid = auth()->id();
+        $userid = auth()->user()->id;
 
-        // Validate and store KYC form data
-        $kycData = KycData::create(array_merge($request->all(), ['userid' => $userid]));
+        // Validate Form
+        $request->validate([
+            'fullName' => 'required',
+            'email' => 'required',
+            'documentImage_path' => 'required|mimes:png,jpg,jpeg',
+            'homeAddress' => 'required',
+            'dateOfBirth' => 'required',
+            'phoneNumber' => 'required',
+        ]);
 
         // Handle the image upload
+        $imageName = time() . '.' . $request->fullName . '.' . $request->documentImage_path->extension();
+        $request->documentImage_path->move(public_path('kycImages'), $imageName);
 
-        if ($request->hasFile('documentImage_path')) {
-
-            $image = $request->file('documentImage_path');
-
-            $name = time().'.'.$image->getClientOriginalExtension();
-
-            $destinationPath = public_path('documents');
-
-            $image->move($destinationPath, $name);
-
-            $kycData->image_path = $name;
-
-        }
+        // store Advertise form data
+        $kycData = KycData::create([
+            'userid' => $userid,
+            'fullName' => $request->input('fullName'),
+            'documentImage_path' => $imageName,
+            'phoneNumber' => $request->input('phoneNumber'),
+            'email' => $request->input('email'),
+            'homeAddress' => $request->input('homeAddress'),
+            'dateOfBirth' => $request->input('dateOfBirth'),
+            'verified' => 0,
+        ]);
 
         return redirect()->route('user.kyc_dashboard');
     }

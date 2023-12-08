@@ -56,6 +56,11 @@ return [
             'throw' => false,
         ],
 
+        'advertiseImages' => [
+            'driver' => 'local',
+            'root' => public_path('advertiseImages'),
+        ]
+
     ],
 
     /*
@@ -72,5 +77,6 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+
 
 ];

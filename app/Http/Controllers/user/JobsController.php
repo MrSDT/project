@@ -31,7 +31,7 @@ class JobsController extends Controller
     {
         $user = auth()->user();
         $category = JobsCategory::all();
-        return view('user.jobs.jobs_submit', ['user' => $user , 'category' => $category]);
+        return view('user.jobs.jobs_submit', ['user' => $user, 'category' => $category]);
     }
 
     public function jobs_store(Request $request)
@@ -39,23 +39,32 @@ class JobsController extends Controller
         // Get the ID of the currently authenticated user
         $userid = auth()->user()->id;
 
-        // Validate and store KYC form data
-        $jobsData = JobsData::create(array_merge($request->all(), ['userid' => $userid]));
+        // Validate Form
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'jobImage_path' => 'required|mimes:png,jpg,jpeg',
+            'phoneNumber' => 'required',
+            'email' => 'required',
+            'workingHours' => 'required',
+        ]);
 
         // Handle the image upload
+        $imageName = time() . '.' . $request->title . '.' . $request->jobImage_path->extension();
+        $request->jobImage_path->move(public_path('jobImages'), $imageName);
 
-        if ($request->hasFile('jobImage_path')) {
-
-            $image = $request->file('jobImage_path');
-
-            $name = time().'.'.$image->getClientOriginalExtension();
-
-            $destinationPath = public_path('jobImages');
-
-            $image->move($destinationPath, $name);
-
-            $jobsData->image_path = $name;
-        }
+        // store Advertise form data
+        $jobsData = JobsData::create([
+            'userid' => $userid,
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'jobImage_path' => $imageName,
+            'phoneNumber' => $request->input('phoneNumber'),
+            'email' => $request->input('email'),
+            'workingHours' => $request->input('workingHours'),
+            'verified' => 0,
+            'categoryName' => $request->input('categoryName'),
+        ]);
         return redirect()->route('user.jobs')->with('success', 'Your Job Has Been Created');
     }
 
