@@ -12,6 +12,15 @@
 <body class="bg-light">
 @include('user.layouts.navbar')
 <div class="container mt-5">
+    @if(session('message'))
+        <div class="alert alert-info">
+
+            {{ session('message') }}
+
+        </div>
+    @endif
+
+
     <div class="row justify-content-center">
         <div class="col-md-6">
 

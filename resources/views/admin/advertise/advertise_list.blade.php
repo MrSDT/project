@@ -40,8 +40,17 @@
             <tr>
                 <th scope="row">{{$ad->id}}</th>
                 <td>{{$ad->title}}</td>
-                <td>{{$ad->user->firstName}} {{$ad->user->lastName}}</td>
+                @if($ad->user)
                 <td>
+                    {{$ad->user->firstName}} {{$ad->user->lastName}}
+                </td>
+                @else
+                    <td>
+                        <span class="badge text-bg-secondary">User not found</span>
+                    </td>
+                @endif
+                <td>
+
                     @if($ad->verified == 0)
                         <span class="badge text-bg-warning">Pending</span>
                     @else

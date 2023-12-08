@@ -6,20 +6,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
-            </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{route('admin.dashboard')}}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Users</a>
+                <a class="nav-link @if(request()->routeIs('admin.dashboard')) active @endif"
+                   href="{{route('admin.dashboard')}}">Dashboard</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{route('user.index')}}">Website</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
+                <form action="{{route('logout')}}" method="post">
+                    @csrf
+                    @method('POST')
+                    <button class="btn btn-danger">Logout</button>
+                </form>
             </li>
         </ul>
     </div>
