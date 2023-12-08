@@ -10,9 +10,12 @@ Route::get('/', 'App\Http\Controllers\user\UserController@index')->name('user.in
 
 
 Route::middleware('auth')->group(function () {
+    // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Dashboard Routes
     Route::get('/dashboard', 'App\Http\Controllers\user\UserController@userDashboard')->name('user.dashboard');
     Route::get('/dashboard/status', 'App\Http\Controllers\user\UserController@userDashboard_status')
         ->name('user.dashboard_status');
@@ -43,15 +46,16 @@ Route::middleware('auth')->group(function () {
         ->name('user.jobs_details');
 });
 
+// Auth Routes
 require __DIR__.'/auth.php';
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    // Redirect /admin to /admin/dashboard
+    // Admin Dashboard Routes
     Route::redirect('/', '/admin/dashboard');
     Route::get('/dashboard', 'App\Http\Controllers\admin\AdminController@index')->name('admin.dashboard');
 
-    // User Section Admin Routes
+    // User Admin Routes
     Route::get('/dashboard/users', 'App\Http\Controllers\admin\AdminController@users')->name('admin.users');
     Route::get('/dashboard/users/{id}', 'App\Http\Controllers\admin\AdminController@users_edit')
         ->name('admin.users_edit');
@@ -65,7 +69,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::match(['post', 'delete'],'/dashboard/kyc/review/{id}', 'App\Http\Controllers\admin\AdminController@kyc_update')
         ->name('admin.kyc_update');
 
-    // Category Admin Routes
+    // Advertise Category Admin Routes
     Route::get('/dashboard/categories', 'App\Http\Controllers\admin\AdminController@categories')
         ->name('admin.categories');
     Route::get('/dashboard/categories/create', 'App\Http\Controllers\admin\AdminController@categories_create')
