@@ -79,7 +79,7 @@ class AdminController extends Controller
             if ($kycdata->verified == 0)
             {
                 $kycdata->update(['verified' => 1]);
-                if ($user->userGroup >= 'verified_user')
+                if ($user->userGroup == 'registered_user')
                 {
                     $user->update(['userGroup' => 'verified_user']);
                 }
