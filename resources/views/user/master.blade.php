@@ -22,6 +22,7 @@
 
 
     <div class="row justify-content-center">
+        @yield('content2')
         <div class="col-md-6">
 
         @yield('content')

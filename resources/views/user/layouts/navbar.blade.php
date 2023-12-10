@@ -28,6 +28,9 @@
             <li class="nav-item @if(request()->routeIs('user.jobs')) active @endif">
                 <a class="nav-link" href="{{route('user.jobs')}}">Jobs</a>
             </li>
+            <li class="nav-item @if(request()->routeIs('user.users_list')) active @endif">
+                <a class="nav-link" href="{{route('user.users_list')}}">Users List</a>
+            </li>
             <li class="nav-item">
                 <form action="{{route('logout')}}" method="post">
                     @csrf

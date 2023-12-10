@@ -47,4 +47,18 @@ class UserController extends Controller
     }
 
 
+    public function users_list()
+    {
+        $users = User::latest()->get();
+        return view('user.users_list', ['users' => $users]);
+    }
+
+
+    public function user_profile($id)
+    {
+        $user = User::findorfail($id);
+        return view('user.user_profile', ['user' => $user]);
+    }
+
+
 }

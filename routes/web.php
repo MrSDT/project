@@ -19,6 +19,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', 'App\Http\Controllers\user\UserController@userDashboard')->name('user.dashboard');
     Route::get('/dashboard/status', 'App\Http\Controllers\user\UserController@userDashboard_status')
         ->name('user.dashboard_status');
+    // Users List Routes
+    Route::get('/users/list', 'App\Http\Controllers\user\UserController@users_list')
+        ->name('user.users_list');
+    Route::get('/user/{id}', 'App\Http\Controllers\user\UserController@user_profile')
+        ->name('user.user_profile');
 
     // KYC Routes
     Route::get('/dashboard/kyc', 'App\Http\Controllers\user\KycController@index')->name('user.kyc_dashboard');
