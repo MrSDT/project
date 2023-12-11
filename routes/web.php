@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
@@ -49,6 +50,14 @@ Route::middleware('auth')->group(function () {
         ->name('user.jobs_store');
     Route::get('/jobs/{id}', 'App\Http\Controllers\user\JobsController@jobs_details')
         ->name('user.jobs_details');
+
+    // Chat Routes
+
+    // Display chat interface
+    Route::get('/chat/{recipientId}', [ChatController::class, 'showChat'])->name('chat.show')->middleware('auth');
+    // Send a message
+    Route::post('/chat/{recipientId}/send', [ChatController::class, 'sendMessage'])->name('chat.sendMessage')->middleware('auth');
+
 });
 
 // Auth Routes

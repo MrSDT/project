@@ -24,7 +24,7 @@
                 <p><strong>Online Status:</strong> {{$user->onlineStatus}}</p>
                 <p><strong>Phone Number Verified:</strong> {{$user->phoneNumber_verified}}</p>
 {{--                <p><strong>Number of Advertises:</strong> {{$adcount}}</p>--}}
-                <p><strong><a href="#">Send Message</a></strong></p>
+                <p><strong><a href="">Send Message</a></strong></p>
             </div>
         </div>
     </div>
